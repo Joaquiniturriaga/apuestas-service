@@ -261,26 +261,3 @@ def ping() -> bool:
     except Exception:  # noqa: BLE001
         return False
 
-
-def init_schema() -> None:
-    """Crea tablas propias e inserta eventos si la tabla está vacía."""
-    with conexion() as conn:
-        with conn.cursor() as cur:
-            # Crea tablas eventos_deportivos y apuestas (idempotente)
-            cur.execute(_SCHEMA)
-            # Índice único para evitar partidos duplicados en reinicios
-            cur.execute(_INDICE_PARTIDO)
-        conn.commit()
-    print("[PG] Esquema de apuestas verificado", flush=True)
-
-    # Intenta sembrar eventos desde thesportsdb, si falla usa el fallback
-    try:
-        from .sportsdb import sembrar_eventos
-        sembrar_eventos()
-        print("[PG] Eventos sembrados desde thesportsdb", flush=True)
-    except Exception as err:
-        print(f"[PG] thesportsdb falló ({err}), usando seed de respaldo", flush=True)
-        with conexion() as conn:
-            with conn.cursor() as cur:
-                cur.execute(_SEED_FALLBACK)
-            conn.commit()
