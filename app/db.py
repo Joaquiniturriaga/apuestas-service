@@ -13,7 +13,7 @@ import psycopg2
 import psycopg2.extras
 import psycopg2.pool
 from psycopg2 import extensions
-
+from dotenv import load_dotenv
 # NUMERIC -> float (igual que casino-backend) para respuestas JSON nativas.
 _DEC2FLOAT = extensions.new_type(
     extensions.DECIMAL.values,
@@ -21,6 +21,8 @@ _DEC2FLOAT = extensions.new_type(
     lambda value, curs: float(value) if value is not None else None,
 )
 extensions.register_type(_DEC2FLOAT)
+
+load_dotenv()
 
 DB_CONFIG = {
     "host": os.getenv("DB_HOST", "localhost"),
@@ -258,3 +260,4 @@ def ping() -> bool:
         return True
     except Exception:  # noqa: BLE001
         return False
+

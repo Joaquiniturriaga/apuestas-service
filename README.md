@@ -34,3 +34,6 @@ Requiere una PostgreSQL accesible con las tablas compartidas (`usuarios`,
 3. **Workflow de CI/CD** (GitHub Actions) que construya la imagen, la publique en ECR y despliegue en **EKS**.
 4. **Manifiestos de Kubernetes** (Deployment + Service) con las probes apuntando a tus rutas de salud.
 5. **Pruebas de carga** que evidencien el correcto funcionamiento en EKS (escalado, disponibilidad).
+
+
+BUEEEE
